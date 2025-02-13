@@ -3,6 +3,8 @@
 from flask import Flask, request, send_file, jsonify
 from gevent.pywsgi import WSGIServer
 from dotenv import load_dotenv
+from uuid import uuid4
+
 import os
 
 from handle_text import prepare_tts_input_with_context
@@ -45,11 +47,14 @@ def text_to_speech():
     
     mime_type = AUDIO_FORMAT_MIME_TYPES.get(response_format, "audio/mpeg")
 
+    unique_filename = f"speech_{uuid4()}.{response_format}"
+
+
     # Generate the audio file in the specified format with speed adjustment
     output_file_path = generate_speech(text, voice, response_format, speed)
 
     # Return the file with the correct MIME type
-    return send_file(output_file_path, mimetype=mime_type, as_attachment=True, download_name=f"speech.{response_format}")
+    return send_file(output_file_path, mimetype=mime_type, as_attachment=True, download_name=unique_filename")
 
 @app.route('/v1/models', methods=['GET', 'POST'])
 @app.route('/models', methods=['GET', 'POST'])
