@@ -54,7 +54,7 @@ def text_to_speech():
     output_file_path = generate_speech(text, voice, response_format, speed)
 
     # Return the file with the correct MIME type
-    return send_file(output_file_path, mimetype=mime_type, as_attachment=True, download_name=unique_filename")
+    return send_file(output_file_path, mimetype=mime_type, as_attachment=True, download_name=unique_filename)
 
 @app.route('/v1/models', methods=['GET', 'POST'])
 @app.route('/models', methods=['GET', 'POST'])
